@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="2021-12-09-12-48-38-1" author="vahan-nersisyan">
+        <createTable tableName="phone">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints unique="true" nullable="false"
+                             uniqueConstraintName="ux_phone_name"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2021-12-09-12-48-38-1-data" author="vahan-nersisyan">
+        <loadData
+                file="db/changelog/2021-12-09-12-48-38-1-phone.csv"
+                separator=";"
+                tableName="phone"
+                usePreparedStatements="true">
+            <column name="name" type="string"/>
+        </loadData>
+    </changeSet>
+
+    <changeSet id="2021-12-09-12-48-38-2" author="vahan-nersisyan">
+        <createTable tableName="phone_booking">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="date" type="timestamp" defaultValue="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="phone_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="phone_booking"
+                             columnNames="user_id, phone_id"
+                             constraintName="ux_phone_booking_user_id_phone_id"
+        />
+        <addForeignKeyConstraint
+                constraintName="fk_phone_booking_phone_id"
+                baseTableName="phone_booking"
+                baseColumnNames="phone_id"
+                referencedTableName="phone"
+                referencedColumnNames="id"
+        />
+        <addForeignKeyConstraint
+                constraintName="fk_phone_booking_user_id"
+                baseTableName="phone_booking"
+                baseColumnNames="user_id"
+                referencedTableName="user"
+                referencedColumnNames="id"
+        />
+    </changeSet>
+
+</databaseChangeLog>
