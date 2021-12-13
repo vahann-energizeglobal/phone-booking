@@ -3,14 +3,10 @@ package com.company.phonebooking.domain
 import javax.persistence.*
 
 @Entity
-@Table
+@Table(name = "phone")
 class PhoneEntity(
     @Id
-    @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = "sequenceGenerator"
-    )
-    @SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
     val name: String,

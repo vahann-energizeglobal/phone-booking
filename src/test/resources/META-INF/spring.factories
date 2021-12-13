@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.company.phonebooking.config.WebTestClientAutoConfiguration,\
+com.company.phonebooking.config.JacksonAutoConfiguration

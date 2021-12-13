@@ -4,17 +4,13 @@ import java.time.Instant
 import javax.persistence.*
 
 @Entity
-@Table
+@Table(name = "phone_booking")
 class PhoneBookingEntity(
     @Id
-    @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = "sequenceGenerator"
-    )
-    @SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    @Column(name = "creation_date", updatable = false)
+    @Column(name = "date", updatable = false)
     val date: Instant = Instant.now(),
 
     @ManyToOne(fetch = FetchType.LAZY)
